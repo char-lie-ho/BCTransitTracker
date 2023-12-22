@@ -36,19 +36,23 @@ function fetchData(type, pos = null) {
 function displayResult(data, type, route) {
     console.log(data, type)
 
-    let busLocations = []
+    let resultList = [];
     if (type === 'route') {
-        console.log(type)
-        var resultList = document.getElementById('resultList');
-        resultList.innerText = ''
         data.forEach(function (element) {
-            busLocations.push({ lat: element['Latitude'], lng: element['Longitude'], dir: element['Direction'] })
+            resultList.push({ lat: element['Latitude'], lng: element['Longitude'], dir: element['Direction'] })
         })
-        displayRoute(busLocations, route)
+        displayRoute(resultList, route)
+    } else if (type === 'initial') {
+        data.forEach(function (element) {
+            resultList.push({
+                lat: element['Latitude'], lng: element['Longitude'], routes: element['Routes'],
+                StopNo: element['StopNo']
+            })
+        })
+        displayStops(resultList)
     }
 
-
-    console.log(busLocations)
+    console.log(resultList)
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -88,6 +92,32 @@ function displayRoute(busLocations, routeNo) {
             map: map,
             title: location.title,
             icon: image,
-        });
+        }
+        ); console.log(marker)
+    })
+}
+
+function displayStops(busStops) {
+
+    navigator.geolocation.getCurrentPosition((position) => {
+        const pos = {
+            lat: parseFloat(position.coords.latitude.toFixed(6)),
+            lng: parseFloat(position.coords.longitude.toFixed(6)),
+        }
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 15,
+            center: pos,
+        })
+        console.log(busStops)
+        const image = "image/stop.png"
+        busStops.forEach(stop => {
+            const marker = new google.maps.Marker({
+                position: { lat: stop.lat, lng: stop.lng },
+                map: map,
+                title: location.title,
+                icon: image,
+            });
+        },
+        )
     })
 }
