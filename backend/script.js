@@ -1,15 +1,14 @@
 var url;
 const key = '5sPTi0xZHHUeDbm2V9Hm';
 const keyAlt = 'TlaRyCg6LXfJnQ48nqJL';
-function fetchData(type, pos = null) {
+function fetchData(type, selection) {
     const headers = new Headers({
         'Accept': 'application/json',
     });
-
+    const { pos } = selection
     if (type === 'route') {
         var route = document.getElementById("route").value;
         url = `https://api.translink.ca/rttiapi/v1/buses?apikey=${key}&routeNo=${route}`
-
     } else if (type === 'stops') {
         var stop = document.getElementById("stop").value;
         url = `https://api.translink.ca/rttiapi/v1/stops/${stop}?apikey=${key}`
@@ -17,8 +16,9 @@ function fetchData(type, pos = null) {
         var estimate = document.getElementById("estimate").value;
         url = `https://api.translink.ca/rttiapi/v1/stops/${estimate}/estimates?apikey=${key}`
     } else if (type === 'initial') {
-        console.log(pos['lat'])
         url = `https://api.translink.ca/rttiapi/v1/stops?apikey=${key}&lat=${pos['lat']}&long=${pos['lng']}`
+    } else if (type === 'from_map') {
+        url = `https://api.translink.ca/rttiapi/v1/stops/${selection}/estimates?apikey=${key}`
     }
     console.log(url)
 
@@ -50,9 +50,13 @@ function displayResult(data, type, route) {
             })
         })
         displayStops(resultList)
+    } else if (type === 'from_map') {
+        document.getElementById('resultList').innerHTML = ''
+        data.forEach(function (element) {
+            document.getElementById('resultList').innerHTML += `<p>Route: ${element['RouteNo']}</p>
+            <p>Next bus (mins): ${element['Schedules'][0]['ExpectedCountdown']}</>`;        
+        })
     }
-
-    // console.log(resultList)
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -66,10 +70,9 @@ function initMap() {
             lat: parseFloat(position.coords.latitude.toFixed(6)),
             lng: parseFloat(position.coords.longitude.toFixed(6)),
         }
-        console.log(pos)
-        // Display nearby bus stops
 
-        fetchData('initial', pos)
+        // Display nearby bus stops
+        fetchData('initial', { pos })
         new google.maps.Map(document.getElementById('map'), {
             center: pos,
             zoom: 14,
@@ -127,12 +130,11 @@ async function displayStops(busStops) {
         // Create an info window to share between markers.
         const infoWindow = new InfoWindow();
 
-
-
         // Create the markers.
         busStops.forEach((stop) => {
             const contentString = ` <p>${stop.Name}</p>
-                                    <p>Route: ${stop.routes}</p>`
+                                    <p>Route: ${stop.routes}</p>
+                                    `
             // <p>Stop number: ${stop.StopNo}</p>
             const marker = new AdvancedMarkerElement({
                 position: { lat: stop.lat, lng: stop.lng },
@@ -148,6 +150,10 @@ async function displayStops(busStops) {
                 infoWindow.close();
                 infoWindow.setContent(marker.title);
                 infoWindow.open(marker.map, marker);
+                // Display route details 
+                console.log(stop.StopNo)
+                fetchData('from_map', stop.StopNo)
+
             });
         });
     })
