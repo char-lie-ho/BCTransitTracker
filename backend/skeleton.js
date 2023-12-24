@@ -1,5 +1,5 @@
 function loadSkeleton() {
-    $('#footerPlaceholder').load('../pages/footer.html');
+    $('#footerPlaceholder').load('./pages/footer.html');
 }
 
 loadSkeleton()
