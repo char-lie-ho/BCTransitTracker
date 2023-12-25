@@ -52,15 +52,16 @@ function displayResult(data, type, route) {
         })
         displayStops(resultList)
     } else if (type === 'from_map') {
+        
         document.getElementById('resultList').innerHTML = ''
         data.forEach(function (element) {
             const expectedCountdownArray = element['Schedules']
             .map(schedule => schedule['ExpectedCountdown'])
                 .filter(countdown => countdown >= 0 && countdown < 60);  // Only display bus within 60 mins
-
-            document.getElementById('resultList').innerHTML += `<div class="col-6"><div class="card" style="height:110px"href='#'>
-            <div class="card-body"><button type="button" class="btn btn-info btn-sm">Route: ${element['RouteNo']}</button>
-            <p class="card-subtitle mb-2 text-muted">Next bus (mins): ${expectedCountdownArray.join(', ')}</p> </div></div></div>`;
+        
+            document.getElementById('resultList').innerHTML += `<div class="col-6"><div class="card" style="height:130px"href='#'>
+            <div class="card-body"><div class="card-title"><button type="button" class="btn btn-info btn-sm">Route: ${element['RouteNo']}</button>  <b>${element['Direction'][0]}</b></div>
+            <span class="card-subtitle mb-2 text-muted">Next bus (mins): ${expectedCountdownArray.join(', ')}</span></div></div></div>`;
         })
     }
 }
