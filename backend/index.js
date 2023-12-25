@@ -28,14 +28,14 @@ function fetchData(type, pos) {
 
     fetch(url, options)
         .then(response => response.json())
-        .then(data => displayResult(data, type, route))
+        .then(data => displayResult(data, type, pos))
     // .catch(error => {
     //     console.error('Error:', error);
     //     alert("Invalid route number. Please use a valid active route id that is 3 digits, i.e. 003, 590.")
     // });
 }
 
-function displayResult(data, type, route) {
+function displayResult(data, type, pos) {
     console.log(data, type)
 
     let resultList = [];
@@ -49,15 +49,25 @@ function displayResult(data, type, route) {
     else if (type === 'initial') {
         document.getElementById('resultList').innerHTML = ''
         data.forEach(function (element) {
-            if (element['Routes'] !== "") {
+            if (element['Routes'].length > 0) {
                 fetchData('stop', element['StopNo'])
             }
         })
 
     }
 
-    else if (type == 'stop') {
+    else if (type == 'stop' && data.length > 0) {
         console.log(data)
+        data.forEach(function (element) {
+            var expectedCountdownArray = element['Schedules']
+                .map(schedule => schedule['ExpectedCountdown'])
+            document.getElementById('resultList').innerHTML += `<div class="col-6"><div class="card" href='#'>
+            <div class="card-body"><div class="card-title"><button type="button" class="btn btn-info btn-sm">Route: ${element['RouteNo']}</button> 
+            @${pos}   
+            <b>${element['Direction'][0]}</b></div>
+            <span class="card-subtitle mb-2 text-muted">Next bus (mins): ${expectedCountdownArray.join(', ')}</span></div></div></div>`
+        })
+        //   on line 66, change to display station name 
     }
 
 }
