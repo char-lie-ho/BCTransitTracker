@@ -55,9 +55,9 @@ function displayResult(data, type, route) {
         document.getElementById('resultList').innerHTML = ''
         data.forEach(function (element) {
             const expectedCountdownArray = element['Schedules']
-            .map(schedule => schedule['ExpectedCountdown'])
+                .map(schedule => schedule['ExpectedCountdown'])
                 .filter(countdown => countdown >= 0 && countdown < 60);  // Only display bus within 60 mins
-        
+
             document.getElementById('resultList').innerHTML += `<div class="col-6"><div class="card" style="height:130px"href='#'>
             <div class="card-body"><div class="card-title"><button type="button" class="btn btn-info btn-sm">Route: ${element['RouteNo']}</button>  <b>${element['Direction'][0]}</b></div>
             <span class="card-subtitle mb-2 text-muted">Next bus (mins): ${expectedCountdownArray.join(', ')}</span></div></div></div>`;
@@ -77,11 +77,7 @@ function initMap() {
             lat: parseFloat(position.coords.latitude.toFixed(6)),
             lng: parseFloat(position.coords.longitude.toFixed(6)),
         }
-        const marker = new google.maps.Marker({
-            position: pos,
-            map: map,
-            title: 'Your Location',
-        });
+
         // Display nearby bus stops
         fetchData('initial', { pos })
         new google.maps.Map(document.getElementById('map'), {
@@ -130,7 +126,7 @@ async function displayStops(busStops) {
             lng: parseFloat(position.coords.longitude.toFixed(6)),
         }
         const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 15,
+            zoom: 14,
             center: pos,
             mapId: "4504f8b37365c3d0",
             mapTypeControl: false,
@@ -138,7 +134,14 @@ async function displayStops(busStops) {
             zoomControl: false,
         })
         console.log(busStops)
+        // Display user current location
 
+        const userMakrer = new google.maps.Marker({
+            position: pos,
+            map: map,
+            title: 'Your Location',
+            icon: 'image/personal_pin.svg'
+        });
         // Create an info window to share between markers.
         const infoWindow = new InfoWindow();
 
@@ -147,12 +150,11 @@ async function displayStops(busStops) {
             const contentString = ` <p>${stop.Name}</p>
                                     <p>Route: ${stop.routes}</p>
                                     `
-            // <p>Stop number: ${stop.StopNo}</p>
             const marker = new AdvancedMarkerElement({
                 position: { lat: stop.lat, lng: stop.lng },
                 map,
                 title: contentString,
-                // content: stop.Name,
+                // icon: 'image/personal_pin.svg'
             });
 
             // Add a click listener for each marker, and set up the info window.
@@ -167,7 +169,7 @@ async function displayStops(busStops) {
                 stationName = document.getElementById('stationName').innerHTML = `${stop.Name}`
                 stationNo = document.getElementById('stationNo').innerHTML = `#${stop.StopNo}`
                 fetchData('from_map', stop.StopNo)
-                
+
             });
         });
     })
