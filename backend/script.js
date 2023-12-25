@@ -52,7 +52,6 @@ function displayResult(data, type, route) {
         })
         displayStops(resultList)
     } else if (type === 'from_map') {
-        
         document.getElementById('resultList').innerHTML = ''
         data.forEach(function (element) {
             const expectedCountdownArray = element['Schedules']
@@ -165,8 +164,10 @@ async function displayStops(busStops) {
                 infoWindow.open(marker.map, marker);
                 // Display route details 
                 console.log(stop.StopNo)
+                stationName = document.getElementById('stationName').innerHTML = `${stop.Name}`
+                stationNo = document.getElementById('stationNo').innerHTML = `#${stop.StopNo}`
                 fetchData('from_map', stop.StopNo)
-
+                
             });
         });
     })
