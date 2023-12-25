@@ -109,22 +109,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function displayButtons(busRoute) {
+    buttonHTML = ``
+    clearBtn = `<button type="button" class="btn btn-info btn-sm" onclick="modifyDisplay('clear')">CLEAR</button>`
     console.log(busRoute)
     busRoute.forEach(route => {
-        document.getElementById('btns').innerHTML += `<button type="button" class="btn btn-info btn-sm" onclick="modifyDisplay(${route})">${route}</button>`
+        buttonHTML += `<button type="button" class="btn btn-info btn-sm" onclick="modifyDisplay(${route})">${route}</button>`
+
     })
+    document.getElementById('btns').innerHTML = buttonHTML + clearBtn
+
 }
 
 function modifyDisplay(route) {
     const elements = document.querySelectorAll('.busRoute');
-
-    elements.forEach(element => {
-        if (element.id == route) {
-            element.style.display = 'block';
-        } else {
-            element.style.display = 'none';
-        }
-    })
+    if (route === 'clear') {
+        elements.forEach(element => element.style.display = 'block')
+    } else {
+        elements.forEach(element => {
+            if (element.id == route) {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        })
+    }
 
 }
 
