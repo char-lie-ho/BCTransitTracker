@@ -3,7 +3,7 @@ const key = '5sPTi0xZHHUeDbm2V9Hm';
 const keyAlt = 'TlaRyCg6LXfJnQ48nqJL';
 
 
-function fetchData(type, pos) {
+function fetchData(type, info) {
     const headers = new Headers({
         'Accept': 'application/json',
     });
@@ -12,12 +12,11 @@ function fetchData(type, pos) {
         url = `https://api.translink.ca/rttiapi/v1/buses?apikey=${key}&routeNo=${route}`
     }
     else if (type === 'initial') {
-        url = `https://api.translink.ca/rttiapi/v1/stops?apikey=${key}&lat=${pos['lat']}&long=${pos['lng']}&radius=300`
+        url = `https://api.translink.ca/rttiapi/v1/stops?apikey=${key}&lat=${info['lat']}&long=${info['lng']}&radius=250`
     }
     else if (type === 'stop') {
-        url = `https://api.translink.ca/rttiapi/v1/stops/${pos}/estimates?apikey=${key}&count=3&timeframe=60`
+        url = `https://api.translink.ca/rttiapi/v1/stops/${info['stopNo']}/estimates?apikey=${key}&count=3&timeframe=60`
     }
-
 
     console.log(url)
 
@@ -28,14 +27,14 @@ function fetchData(type, pos) {
 
     fetch(url, options)
         .then(response => response.json())
-        .then(data => displayResult(data, type, pos))
+        .then(data => displayResult(data, type, info))
     // .catch(error => {
     //     console.error('Error:', error);
     //     alert("Invalid route number. Please use a valid active route id that is 3 digits, i.e. 003, 590.")
     // });
 }
 
-function displayResult(data, type, pos) {
+function displayResult(data, type, info) {
     console.log(data, type)
 
     let resultList = [];
@@ -43,17 +42,16 @@ function displayResult(data, type, pos) {
         data.forEach(function (element) {
             resultList.push({ lat: element['Latitude'], lng: element['Longitude'], dir: element['Direction'] })
         })
-
     }
 
     else if (type === 'initial') {
         document.getElementById('resultList').innerHTML = ''
         data.forEach(function (element) {
             if (element['Routes'].length > 0) {
-                fetchData('stop', element['StopNo'])
+                info = { 'stopNo': element['StopNo'], 'AtStreet': element['AtStreet'] }
+                fetchData('stop', info)
             }
         })
-
     }
 
     else if (type == 'stop' && data.length > 0) {
@@ -63,7 +61,7 @@ function displayResult(data, type, pos) {
                 .map(schedule => schedule['ExpectedCountdown'])
             document.getElementById('resultList').innerHTML += `<div class="col-6"><div class="card" href='#'>
             <div class="card-body"><div class="card-title"><button type="button" class="btn btn-info btn-sm">Route: ${element['RouteNo']}</button> 
-            @${pos}   
+            @${info['AtStreet']}   
             <b>${element['Direction'][0]}</b></div>
             <span class="card-subtitle mb-2 text-muted">Next bus (mins): ${expectedCountdownArray.join(', ')}</span></div></div></div>`
         })
