@@ -88,11 +88,16 @@ function displayResult(data, type, info) {
             // Display the routes on webpage
             var expectedCountdownArray = element['Schedules']
                 .map(schedule => schedule['ExpectedCountdown'])
-            document.getElementById('resultList').innerHTML += `<div class="col-6 busRoute" id='${element['RouteNo']}' ><div class="card" href='#'>
-            <div class="card-body"><div class="card-title"><button type="button" class="btn btn-info btn-sm">Route: ${element['RouteNo']}</button> 
-            @${info['AtStreet']}   
-            <b>${element['Direction'][0]}</b></div>
-            <span class="card-subtitle mb-2 text-muted">Next bus (mins): ${expectedCountdownArray.join(', ')}</span></div></div></div>`
+            document.getElementById('resultList').innerHTML += `    
+            <div class="col-6 busRoute" id='${element['RouteNo']}'>
+                <div class="card" href='#'>
+                    <div class="card-body">
+                        <div class="card-title"><button type="button" class="btn btn-info btn-sm">Route:${element['RouteNo']}</button><b> ${element['Direction'][0]}</b>
+                        </div> @${info['AtStreet']}
+                        <div class="card-subtitle mb-2 text-muted">Next bus (mins): ${expectedCountdownArray.join(', ')}</div>
+                    </div>
+                </div>
+            </div>`
         })
 
     }
@@ -121,13 +126,11 @@ function displayButtons(busRoute) {
 }
 
 function modifyDisplay(route) {
-    console.log(route)
     const elements = document.querySelectorAll('.busRoute');
     if (route === 'clear') {
         elements.forEach(element => element.style.display = 'block')
     } else {
         elements.forEach(element => {
-            console.log(element.id, route)
             if (element.id == route) {
                 element.style.display = 'block';
             } else {
