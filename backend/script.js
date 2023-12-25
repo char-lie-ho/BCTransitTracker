@@ -1,6 +1,8 @@
 var url;
 const key = '5sPTi0xZHHUeDbm2V9Hm';
 const keyAlt = 'TlaRyCg6LXfJnQ48nqJL';
+
+
 function fetchData(type, selection) {
     const headers = new Headers({
         'Accept': 'application/json',
@@ -31,7 +33,10 @@ function fetchData(type, selection) {
     fetch(url, options)
         .then(response => response.json())
         .then(data => displayResult(data, type, route))
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Invalid route number specified. Please use a valid active route id that is 3 digits, i.e. 003, 590.")
+        });
 }
 
 function displayResult(data, type, route) {
@@ -58,7 +63,7 @@ function displayResult(data, type, route) {
                 .map(schedule => schedule['ExpectedCountdown'])
                 .filter(countdown => countdown >= 0 && countdown < 60);  // Only display bus within 60 mins
 
-            document.getElementById('resultList').innerHTML += `<div class="col-6"><div class="card" style="height:130px"href='#'>
+            document.getElementById('resultList').innerHTML += `<div class="col-6"><div class="card" href='#'>
             <div class="card-body"><div class="card-title"><button type="button" class="btn btn-info btn-sm">Route: ${element['RouteNo']}</button>  <b>${element['Direction'][0]}</b></div>
             <span class="card-subtitle mb-2 text-muted">Next bus (mins): ${expectedCountdownArray.join(', ')}</span></div></div></div>`;
         })
@@ -89,12 +94,24 @@ function initMap() {
     })
 }
 
+function formatRouteNo(value) {
+    // Check if the value starts with an alpha character
+    const startsWithAlpha = /^[a-zA-Z]/.test(value);
+
+    if (!startsWithAlpha) {
+        return String(Number(value)).padStart(3, '0');
+    } else {
+        return value;
+    }
+}
+
 function displayRoute(busLocations, routeNo) {
     var map = new google.maps.Map(document.getElementById('map'), {
         mapTypeControl: false,
         streetViewControl: false,
         zoomControl: false,
     });
+    routeNo = formatRouteNo(routeNo)
 
     var kmlLayer = new google.maps.KmlLayer({
         url: `https://nb.translink.ca/geodata/${routeNo}.kmz`
@@ -126,7 +143,7 @@ async function displayStops(busStops) {
             lng: parseFloat(position.coords.longitude.toFixed(6)),
         }
         const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 14,
+            zoom: 15,
             center: pos,
             mapId: "4504f8b37365c3d0",
             mapTypeControl: false,
@@ -136,11 +153,11 @@ async function displayStops(busStops) {
         console.log(busStops)
         // Display user current location
 
-        const userMakrer = new google.maps.Marker({
+        const userMarker = new google.maps.Marker({
             position: pos,
             map: map,
             title: 'Your Location',
-            icon: 'image/personal_pin.svg'
+            icon: './image/personalPin.svg'
         });
         // Create an info window to share between markers.
         const infoWindow = new InfoWindow();
@@ -154,7 +171,6 @@ async function displayStops(busStops) {
                 position: { lat: stop.lat, lng: stop.lng },
                 map,
                 title: contentString,
-                // icon: 'image/personal_pin.svg'
             });
 
             // Add a click listener for each marker, and set up the info window.
