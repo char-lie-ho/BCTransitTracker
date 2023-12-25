@@ -21,7 +21,7 @@
 
     <style>
         #map {
-            height: 400px;
+            height: 330px;
             width: 100%;
         }
     </style>
@@ -29,8 +29,8 @@
 </head>
 
 <body>
-    <div class="container py-5 px-2">
-        <h6><span class="material-icons">directions_bus</span>Translink Bus search: </h6>
+    <div class="container py-2 px-2">
+        <h6><span class="material-icons">directions_bus</span>Translink Bus </h6>
         <div class="row py-4">
             <div class="col-12 col-md-8 col-lg-4 mx-auto">
                 <div class="input-group">
@@ -46,8 +46,9 @@
                         <span class="material-symbols-outlined">search</span>
                     </button>
                 </div>
+                <!-- Next bus estimate -->
                 <div class="input-group">
-                    <!-- Next bus estimate -->
+
                     <div class="small fw-light">
                         <h6>Next bus:</h6>
                     </div>
@@ -58,8 +59,8 @@
                         <span class="material-symbols-outlined">search</span>
                     </button>
                 </div>
+                <!-- Stops -->
                 <div class="input-group">
-                    <!-- Stops -->
                     <div class="small fw-light">
                         <h6>Stops:</h6>
                     </div>
@@ -70,22 +71,24 @@
                         <span class="material-symbols-outlined">search</span>
                     </button>
                 </div>
+
             </div>
             <div class="col-12" id="result">
 
             </div>
-            <div id="map"></div>
-            <div id="resultList"></div>
-            
+            <!-- <div id="map"></div> -->
+            <br>
+            <div><span id="stationName" style="font-size: large;"></span>
+                <span id="stationNo" style="font-size: small;"></span>
+            </div>
+            <div class="row" id="resultList"></div>
+
         </div>
         <!-- Footer -->
         <footer id="footerPlaceholder"></footer>
     </div>
-    <script src="backend/script.js"></script>
+    <script src="backend/index.js"></script>
     <script src="backend/skeleton.js"></script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=[YourApiKey]&callback=initMap">
-        </script>
 </body>
 
 </html>
