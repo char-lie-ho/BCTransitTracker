@@ -1,7 +1,12 @@
 var url;
-const key = '5sPTi0xZHHUeDbm2V9Hm';
-const keyAlt = 'TlaRyCg6LXfJnQ48nqJL';
 
+function loadGoogleMapsScript(apiKey) {
+    const script = document.createElement('script');
+    script.async = true;
+    script.defer = true;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
+    document.head.appendChild(script);
+}
 
 function fetchData(type, selection) {
     const headers = new Headers({
