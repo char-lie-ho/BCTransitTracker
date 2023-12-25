@@ -5,7 +5,7 @@ function fetchData(type, selection) {
     const headers = new Headers({
         'Accept': 'application/json',
     });
-    const { pos } = selection
+
     if (type === 'route') {
         var route = document.getElementById("route").value;
         url = `https://api.translink.ca/rttiapi/v1/buses?apikey=${key}&routeNo=${route}`
@@ -16,6 +16,7 @@ function fetchData(type, selection) {
         var estimate = document.getElementById("estimate").value;
         url = `https://api.translink.ca/rttiapi/v1/stops/${estimate}/estimates?apikey=${key}`
     } else if (type === 'initial') {
+        const { pos } = selection
         url = `https://api.translink.ca/rttiapi/v1/stops?apikey=${key}&lat=${pos['lat']}&long=${pos['lng']}`
     } else if (type === 'from_map') {
         url = `https://api.translink.ca/rttiapi/v1/stops/${selection}/estimates?apikey=${key}`
@@ -53,8 +54,13 @@ function displayResult(data, type, route) {
     } else if (type === 'from_map') {
         document.getElementById('resultList').innerHTML = ''
         data.forEach(function (element) {
-            document.getElementById('resultList').innerHTML += `<p>Route: ${element['RouteNo']}</p>
-            <p>Next bus (mins): ${element['Schedules'][0]['ExpectedCountdown']}</>`;        
+            const expectedCountdownArray = element['Schedules']
+            .map(schedule => schedule['ExpectedCountdown'])
+                .filter(countdown => countdown >= 0 && countdown < 60);  // Only display bus within 60 mins
+
+            document.getElementById('resultList').innerHTML += `<div class="col-6"><div class="card" style="height:110px"href='#'>
+            <div class="card-body"><button type="button" class="btn btn-info btn-sm">Route: ${element['RouteNo']}</button>
+            <p class="card-subtitle mb-2 text-muted">Next bus (mins): ${expectedCountdownArray.join(', ')}</p> </div></div></div>`;
         })
     }
 }
@@ -66,11 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initMap() {
     navigator.geolocation.getCurrentPosition((position) => {
+        // convert coordinates to 6 digit 
         const pos = {
             lat: parseFloat(position.coords.latitude.toFixed(6)),
             lng: parseFloat(position.coords.longitude.toFixed(6)),
         }
-
+        const marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            title: 'Your Location',
+        });
         // Display nearby bus stops
         fetchData('initial', { pos })
         new google.maps.Map(document.getElementById('map'), {
@@ -113,6 +124,7 @@ async function displayStops(busStops) {
     );
 
     navigator.geolocation.getCurrentPosition((position) => {
+        // convert coordinates to 6 digit 
         const pos = {
             lat: parseFloat(position.coords.latitude.toFixed(6)),
             lng: parseFloat(position.coords.longitude.toFixed(6)),
