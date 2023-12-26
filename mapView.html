@@ -30,57 +30,20 @@
 
 <body>
     <div class="container py-2 px-2">
-        <h6><span class="material-icons">directions_bus</span>Translink Bus search: </h6>
+        <h6><span class="material-icons">directions_bus</span>Translink Bus--bus stops</h6>
         <div class="row py-4">
-            <!-- Route -->
-            <!-- <div class="col-12 col-md-8 col-lg-4 mx-auto">
-                <div class="input-group">
-                    <div class="small fw-light">
-                        <h6>Bus route:</h6>
-                    </div>
-                    <input id="route" class="form-control border-end-0 border rounded-pill" type="search" value=""
-                        name="route">
-                    <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5"
-                        type="button" onclick="fetchData('route')">
-
-                        <span class="material-symbols-outlined">search</span>
-                    </button>
-                </div> -->
-            <!-- Next bus estimate -->
-            <!-- <div class="input-group">
-                
-                    <div class="small fw-light">
-                        <h6>Next bus:</h6>
-                    </div>
-                    <input id="estimate" class="form-control border-end-0 border rounded-pill" type="search" value=""
-                        name="estimate">
-                    <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5"
-                        type="button" onclick="fetchData('estimate')">
-                        <span class="material-symbols-outlined">search</span>
-                    </button>
-                </div> -->
-            <!-- Stops -->
-            <!-- <div class="input-group">
-                    <div class="small fw-light">
-                        <h6>Stops:</h6>
-                    </div>
-                    <input id="stop" class="form-control border-end-0 border rounded-pill" type="search" value=""
-                        name="stop">
-                    <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5"
-                        type="button" onclick="fetchData('stops')">
-                        <span class="material-symbols-outlined">search</span>
-                    </button>
-                </div> -->
-
+            <p>Display nearby bus stop, click markers to see more info.</p>
+            <div id="map"></div>
+             <!-- Name and number of the bus stops -->
+            <div><span id="stationName" style="font-size: large;"></span>
+                <span id="stationNo" style="font-size: small;"></span>
+            </div>
+            <div class="row" id="resultList"></div>
         </div>
 
-        <div id="map"></div>
+
         <br>
-        <!-- Name and number of the bus stops -->
-        <div><span id="stationName" style="font-size: large;"></span>
-            <span id="stationNo" style="font-size: small;"></span>
-        </div>
-        <div class="row" id="resultList"></div>
+
 
     </div>
     <!-- Footer -->
