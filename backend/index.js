@@ -1,5 +1,3 @@
-const key = '5sPTi0xZHHUeDbm2V9Hm';
-const keyAlt = 'TlaRyCg6LXfJnQ48nqJL';
 const busRoute = new Set()
 
 function userLocation() {
@@ -90,9 +88,9 @@ function displayResult(data, type, info) {
                 .map(schedule => schedule['ExpectedCountdown'])
             document.getElementById('resultList').innerHTML += `    
             <div class="col-6 busRoute" id='${element['RouteNo']}'>
-                <div class="card" href='#'>
+                <div class="card">
                     <div class="card-body">
-                        <div class="card-title"><button type="button" class="btn btn-info btn-sm">Route:${element['RouteNo']}</button><b> ${element['Direction'][0]}</b>
+                        <div class="card-title"><button type="button" class="btn btn-info btn-sm" href=''>Route:${element['RouteNo']}</button><b> ${element['Direction'][0]}</b>
                         </div> @${info['AtStreet']}
                         <div class="card-subtitle mb-2 text-muted">Next bus (mins): ${expectedCountdownArray.join(', ')}</div>
                     </div>
