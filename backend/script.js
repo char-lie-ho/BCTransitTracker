@@ -69,7 +69,7 @@ function displayResult(data, type, route) {
                 .filter(countdown => countdown >= 0 && countdown < 60);  // Only display bus within 60 mins
 
             document.getElementById('resultList').innerHTML += `<div class="col-6"><div class="card" href='#'>
-            <div class="card-body"><div class="card-title"><button type="button" class="btn btn-info btn-sm">Route: ${element['RouteNo']}</button>  <b>${element['Direction'][0]}</b></div>
+            <div class="card-body"><div class="card-title"><a type="button" class="btn btn-info btn-sm" href='busRoute.html?route=${element['RouteNo']}'>${element['RouteNo']}</a>  <b>${element['Direction'][0]}</b></div>
             <span class="card-subtitle mb-2 text-muted">Next bus (mins): ${expectedCountdownArray.join(', ')}</span></div></div></div>`;
         })
     }
@@ -187,7 +187,7 @@ async function displayStops(busStops) {
                 infoWindow.open(marker.map, marker);
                 // Display route details 
                 console.log(stop.StopNo)
-                stationName = document.getElementById('stationName').innerHTML = `${stop.Name}`
+                stationName = document.getElementById('stationName').innerHTML = `<b>${stop.Name}</b>`
                 stationNo = document.getElementById('stationNo').innerHTML = `#${stop.StopNo}`
                 fetchData('from_map', stop.StopNo)
 
