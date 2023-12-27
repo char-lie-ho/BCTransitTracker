@@ -90,7 +90,7 @@ function displayResult(data, type, info) {
             <div class="col-6 busRoute" id='${element['RouteNo']}'>
                 <div class="card">
                     <div class="card-body">
-                        <div class="card-title"><button type="button" class="btn btn-info btn-sm" href=''>Route:${element['RouteNo']}</button><b> ${element['Direction'][0]}</b>
+                        <div class="card-title"><a type="button" class="btn btn-info btn-sm" href='busRoute.html?route=${element['RouteNo']}'>${element['RouteNo']}</a><b> ${element['Direction'][0]}</b>
                         </div> @${info['AtStreet']}
                         <div class="card-subtitle mb-2 text-muted">Next bus (mins): ${expectedCountdownArray.join(', ')}</div>
                     </div>
