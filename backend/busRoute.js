@@ -93,7 +93,8 @@ function fetchData(route) {
 }
 
 
-function displayRoute(data) {
+async function displayRoute(data) {
+    const { Map, InfoWindow } = await google.maps.importLibrary("maps");
     const map = new google.maps.Map(document.getElementById('map'), {
         mapTypeControl: false,
         streetViewControl: false,
@@ -107,17 +108,28 @@ function displayRoute(data) {
     });
 
     kmlLayer.setMap(map);
+    // Create an info window to share between markers.
+    const infoWindow = new InfoWindow();
 
     const image = "image/bus.png"
-    data.forEach(location => {
-        console.log(location)
+    data.forEach(bus => {
+        console.log(bus)
+        const contentString = `${bus.RouteNo} ${bus.Direction}BOUND`
         const marker = new google.maps.Marker({
-            position: { lat: location.Latitude, lng: location.Longitude },
+            position: { lat: bus.Latitude, lng: bus.Longitude },
             map: map,
-            title: location.title,
             icon: image,
+            title: contentString,
         });
-        console.log(marker)
+        
+        marker.addListener("click", ({ domEvent }) => {
+            const { target } = domEvent;
+            infoWindow.close();
+            infoWindow.setContent(marker.title);
+            infoWindow.open(marker.map, marker);
+
+        });
+
     })
 
     const userMarker = new google.maps.Marker({
