@@ -29,17 +29,12 @@ console.log(keyword)
 
 
 
-if (!keyword) {
-
-}
-
-
 function showRoute() {
     var route = document.getElementById("route").value;
     if (formatRouteNo(route) && route.length != 0) {
         fetchData(route)
             .then(data => displayRoute(data))
-            .catch(error => console.error('Error processing data:', error))
+            .catch(error => { alert('Invalid route number.'); initMap() })
     } else {
         //inform user their input is incorrect
         console.log('incorrect input')
@@ -82,7 +77,7 @@ function displayRoute(data) {
     var map = new google.maps.Map(document.getElementById('map'), {
         mapTypeControl: false,
         streetViewControl: false,
-        zoomControl: false,
+        zoomControl: false
     });
     console.log(data[0].RouteMap.Href)
     var kmlLayer = new google.maps.KmlLayer({
