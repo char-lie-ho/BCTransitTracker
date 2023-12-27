@@ -36,7 +36,6 @@ let keyword = params.searchParams.get("route"); //get value for key "id"
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM is ready.');
     if (keyword) {
-        console.log(keyword)
         useParam(keyword)
     }
 })
@@ -48,7 +47,7 @@ function useKeyword() {
     if (formatRouteNo(route) && route.length != 0) {
         fetchData(route)
             .then(data => displayRoute(data))
-            // .catch(error => { alert('Invalid route number.'); initMap() })
+            .catch(error => { alert('Invalid route number.'); initMap() })
     } else {
         //inform user their input is incorrect
         console.log('incorrect input')
@@ -58,7 +57,7 @@ function useKeyword() {
 function useParam(param) {
     fetchData(param)
         .then(data => displayRoute(data))
-        .catch(error => { alert('Invalid route number.'); initMap() })
+        .catch(error => { alert('Server error.'); initMap() })
 }
 
 function formatRouteNo(value) {
@@ -100,8 +99,6 @@ async function displayRoute(data) {
         streetViewControl: false,
         zoomControl: false,
     });
-    // console.log(data[0].RouteMap.Href)
-    // initMap()
     
     var kmlLayer = new google.maps.KmlLayer({
         url: data[0].RouteMap.Href
@@ -113,7 +110,6 @@ async function displayRoute(data) {
 
     const image = "image/bus.png"
     data.forEach(bus => {
-        console.log(bus)
         const contentString = `${bus.RouteNo} ${bus.Direction}BOUND`
         const marker = new google.maps.Marker({
             position: { lat: bus.Latitude, lng: bus.Longitude },
