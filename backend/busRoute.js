@@ -25,11 +25,17 @@ function initMap() {
 
 let params = new URL(window.location.href); //get URL of search bar
 let keyword = params.searchParams.get("route"); //get value for key "id"
-console.log(keyword)
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM is ready.');
+    if (keyword) {
+        console.log(keyword)
+        useParam(keyword)
+    }
+})
 
 
 
-function showRoute() {
+function useKeyword() {
     var route = document.getElementById("route").value;
     if (formatRouteNo(route) && route.length != 0) {
         fetchData(route)
@@ -39,6 +45,12 @@ function showRoute() {
         //inform user their input is incorrect
         console.log('incorrect input')
     }
+}
+
+function useParam(param) {
+    fetchData(param)
+        .then(data => displayRoute(data))
+        .catch(error => { alert('Invalid route number.'); initMap() })
 }
 
 function formatRouteNo(value) {
