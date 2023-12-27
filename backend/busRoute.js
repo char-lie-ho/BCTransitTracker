@@ -5,21 +5,29 @@ function loadGoogleMapsScript(apiKey) {
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
     document.head.appendChild(script);
 }
+var pos;
 
 function initMap() {
     navigator.geolocation.getCurrentPosition((position) => {
         // convert coordinates to 6 digit 
-        const pos = {
+        pos = {
             lat: parseFloat(position.coords.latitude.toFixed(6)),
             lng: parseFloat(position.coords.longitude.toFixed(6)),
         }
 
-        new google.maps.Map(document.getElementById('map'), {
+        const map = new google.maps.Map(document.getElementById('map'), {
             center: pos,
             zoom: 14,
             mapTypeControl: false,
             streetViewControl: false,
         })
+
+        const userMarker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            title: 'Your Location',
+            icon: './image/personalPin.svg'
+        });
     })
 }
 
@@ -40,7 +48,7 @@ function useKeyword() {
     if (formatRouteNo(route) && route.length != 0) {
         fetchData(route)
             .then(data => displayRoute(data))
-            .catch(error => { alert('Invalid route number.'); initMap() })
+            // .catch(error => { alert('Invalid route number.'); initMap() })
     } else {
         //inform user their input is incorrect
         console.log('incorrect input')
@@ -86,12 +94,14 @@ function fetchData(route) {
 
 
 function displayRoute(data) {
-    var map = new google.maps.Map(document.getElementById('map'), {
+    const map = new google.maps.Map(document.getElementById('map'), {
         mapTypeControl: false,
         streetViewControl: false,
-        zoomControl: false
+        zoomControl: false,
     });
-    console.log(data[0].RouteMap.Href)
+    // console.log(data[0].RouteMap.Href)
+    // initMap()
+    
     var kmlLayer = new google.maps.KmlLayer({
         url: data[0].RouteMap.Href
     });
@@ -109,4 +119,12 @@ function displayRoute(data) {
         });
         console.log(marker)
     })
+
+    const userMarker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        title: 'Your Location',
+        icon: './image/personalPin.svg'
+    });
+
 }
