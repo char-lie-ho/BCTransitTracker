@@ -1,4 +1,4 @@
-# Translink Project
+# BC Transit Tracker
 #### Video Demo:  https://www.youtube.com/watch?v=2mtIOHpMXLo
 #### Description:
 Translink Project is a dynamic web application that leverages the TransLink Open API,
