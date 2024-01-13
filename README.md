@@ -4,7 +4,7 @@
 <img src="https://img.shields.io/badge/API-043259" alt="API"> 
 
 
-### [Go to the deployed website](https://velvety-pegasus-93558f.netlify.app/)
+### 👉 [Go to the deployed website](https://bctransit.netlify.app/)
 
 # Summary: 📃
 Translink Project is a dynamic web application that leverages the TransLink Open API,
@@ -27,6 +27,12 @@ employing a combination of JavaScript, HTML, and CSS to deliver up-to-the-minute
 
 4. Google Maps Integration:
 * Enhancing user navigation, the application incorporates Google Maps to provide a visual representation of the Metro Vancouver transit network.
+
+# Demo: 🚏
+* Real-time information of nearby buses
+* Handy filter by route button to display specific route
+* Instant access to information about nearby bus stops
+<img src="https://github.com/char-lie-ho/BCTransitTracker/assets/116076259/c2bbc479-3518-4d16-a4a5-7d429155cd69" width=300>
 
 # Technologies and Resources Used 💻
 List technologies (with version numbers), API's, icons, fonts, images, media or data sources, and other resources that were used.
