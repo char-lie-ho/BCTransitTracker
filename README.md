@@ -1,4 +1,4 @@
-# Translink Project 🚎🚌
+# BC Transit Tracker 🚎🚌
 
 <img src="https://img.shields.io/badge/HTML5-DD4B25" alt="HTML5"> <img src="https://img.shields.io/badge/CSS3-2862E9" alt="CSS3"> <img src="https://img.shields.io/badge/JavaScript-EBD54D" alt="JS"> <img src="https://img.shields.io/badge/GoogleMap-32A350" alt="Google Map"> 
 <img src="https://img.shields.io/badge/API-043259" alt="API"> 
