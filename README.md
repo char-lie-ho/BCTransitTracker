@@ -7,7 +7,7 @@
 ### 👉 [Go to the deployed website](https://bctransit.netlify.app/)
 
 # Summary: 📃
-Translink Project is a dynamic web application that leverages the TransLink Open API,
+BC Transit Tracker is a dynamic web application that leverages the TransLink Open API,
 employing a combination of JavaScript, HTML, and CSS to deliver up-to-the-minute transit information for the bustling Metro Vancouver region.
  This innovative app seamlessly integrates with the user's current location, presenting a comprehensive overview of nearby bus stops,
  their respective routes, and detailed information about the selected bus routes.
