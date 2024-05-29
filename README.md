@@ -4,8 +4,6 @@
 <img src="https://img.shields.io/badge/API-043259" alt="API"> 
 
 
-### 👉 [Go to the deployed website](https://bctransit.netlify.app/)
-
 # Summary: 📃
 BC Transit Tracker is a dynamic web application that leverages the TransLink Open API,
 employing a combination of JavaScript, HTML, and CSS to deliver up-to-the-minute transit information for the bustling Metro Vancouver region.
